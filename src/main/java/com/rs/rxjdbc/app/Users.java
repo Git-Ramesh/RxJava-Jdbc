@@ -10,6 +10,20 @@ public class Users implements Serializable {
 	private String password;
 	private String role;
 
+	public Users() {
+		super();
+	}
+
+	public Users(String username, String country, String email, int enabled, String password, String role) {
+		super();
+		this.username = username;
+		this.country = country;
+		this.email = email;
+		this.enabled = enabled;
+		this.password = password;
+		this.role = role;
+	}
+
 	public String getUsername() {
 		return username;
 	}

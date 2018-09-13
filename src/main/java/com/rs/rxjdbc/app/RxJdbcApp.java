@@ -19,7 +19,18 @@ public class RxJdbcApp {
 	private static final String DB_PASSWORD = "root";
 
 	public static void main(String[] args) {
-
+		/*
+		 * ConnectionProvider has several implementations worth looking at – such as
+		 * ConnectionProviderFromContext, ConnectionProviderFromDataSource,
+		 * ConnectionProviderFromUrl and ConnectionProviderPooled.
+		 * 
+		 * In order to do basic operations, we can use the following APIs of Database:
+		 * 
+		 * select() – used for SQL select queries update() – used for DDL statements
+		 * such as create and drop, as well as insert, update and delete
+		 * 
+		 * Reference: ------------ https://www.baeldung.com/rxjava-jdbc
+		 */
 		ConnectionProvider connectionProvider = new ConnectionProviderFromUrl(DB_CONNECTION, DB_USER, DB_PASSWORD);
 		Database db = Database.from(connectionProvider);
 		System.out.println(db);
@@ -30,16 +41,18 @@ public class RxJdbcApp {
 		System.out.println(bu.count().subscribe(System.out::println));
 
 		Builder builder = db.select("select * from users");
-		Observable<List<Users>> users = builder.get(RxJdbcApp::mapResultSet);
+		//Observable<List<Users>> users = builder.get(RxJdbcApp::mapResultSet);
+		Observable<Users> users = builder.autoMap(Users.class);
+		users.map(Users::getEmail).forEach(System.out::println);
 		// users.flatMap(usersList ->
 		// Observable.just(usersList.get(0))).forEach(System.out::println);
 		// users.forEach(System.out::println);
 		// Action1
 		// users.forEach(RxJdbcApp::callAction1);
-		Observable<Users> source = users.flatMap(Observable::from);
-		System.out.println("source: " + source);
+		//Observable<Users> source = users.flatMap(Observable::from);
+		//System.out.println("source: " + source);
 
-		source.map(Users::getEmail).forEach(System.out::println);
+		//source.map(Users::getEmail).forEach(System.out::println);
 
 		System.out.println("main...");
 	}
