@@ -12,7 +12,10 @@ import com.github.davidmoten.rx.jdbc.QuerySelect;
 import com.github.davidmoten.rx.jdbc.QuerySelect.Builder;
 
 import rx.Observable;
-
+/**
+ * 
+ * @author ramesh
+ */
 public class RxJdbcApp {
 	private static final String DB_CONNECTION = "jdbc:mysql://localhost:3306/spring_boot?useSSL=false";
 	private static final String DB_USER = "root";
